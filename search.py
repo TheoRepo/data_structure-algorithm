@@ -1,8 +1,10 @@
 # _*_coding:utf-8_*_
 # created by Theo Yu on 5/16/22
 
-from cal_time import cal_time
+from utils.cal_time import cal_time
 
+# 线性查找
+# 算法复杂度：O(n)
 @cal_time
 def linear_search(li, val):
     for ind, v in enumerate(li):
@@ -11,6 +13,8 @@ def linear_search(li, val):
     else:
         return None
 
+# 二分法查找
+# 算法复杂度：O(log(n))
 @cal_time
 def binary_search(li, val):
     left = 0

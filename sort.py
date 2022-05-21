@@ -1,6 +1,7 @@
 import random
 import copy
 
+# 算法复杂度O(n^2)
 def bubble_sort(li):
     for i in range(len(li)-1): # 第i趟
         for j in range(len(li)-i-1):
@@ -17,9 +18,7 @@ def select_sort_simple(li):
     return li_new
 
 
-# 这个算法实现是有bug的
-# 有序区一定是有序的，因为是第一最小，第二最小的顺序向有序去放入的
-# 那么bug在哪里呢？
+# 算法复杂度O(n^2)
 def select_sort(li):
     for i in range(len(li)-1): # i是第几趟
         # 选出无序区的最小值
