@@ -1,6 +1,7 @@
 import random
 import copy
 
+# 冒泡排序
 # 算法复杂度O(n^2)
 def bubble_sort(li):
     for i in range(len(li)-1): # 第i趟
@@ -18,6 +19,7 @@ def select_sort_simple(li):
     return li_new
 
 
+# 选择排序
 # 算法复杂度O(n^2)
 def select_sort(li):
     for i in range(len(li)-1): # i是第几趟
@@ -29,6 +31,21 @@ def select_sort(li):
         # 找到最小值后，和无序区的第一个值做交换
         li[i], li[min_loc] = li[min_loc], li[i]
 
+
+# 插入排序
+# 思想：扑克牌洗牌
+# 初始时手里（有序区）只有一张牌
+# 每次（从无序区）摸一张牌，插入到手里已有牌的正确位置
+
+# 关键问题：1.摸什么牌 2.插在什么位置
+def insert_sort(li):
+    for i in range(1, len(li)):# i表示摸到的牌的下标
+        tmp = li[i]
+        j = i - 1 #j指的是手里的牌的下标
+        while j >= 0 and li[j] > tmp:# 手里的牌的顺序是从右往左，从大到小递减
+            li[j+1] =  li[j] # 手里的牌往右挪个位置
+            j -=1
+        li[j+1] = tmp # 向空位插入
 
 if __name__ == "__main__":
     li = [random.randint(0, 10000) for i in range(1000)]
