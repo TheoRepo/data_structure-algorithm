@@ -48,11 +48,43 @@ def insert_sort(li):
             j -=1
         li[j+1] = tmp # 向空位插入
 
+
+# 快速排序
+# 快排的时间复杂度O()
+# 快排的思路
+# 取一个元素p(第一个元素)，使元素p归位
+# 列表被p分成两部分，左边都比p小，右边都比p大
+# 递归完成排序
+def partition(li, left, right):
+    # 把第一个元素存起来
+    tmp = li[left]
+    while left < right:
+        while left < right and li[right] >= tmp: # 从右边找比tmp小的数
+            right -= 1 # 往左边走一步
+        li[left] = li[right] # 把右边的值写到左边空位上
+        # print(li,'right')
+        while left < right and li[left] <= tmp:
+            left += 1
+        li[right] = li[left] # 把左边的值写道右边空位上
+        # print(li,'left')
+    li[left] = tmp # 把tmp归位
+    return left
+
+def quick_sort(li,left, right):
+    if left < right: # 至少两个元素
+        mid = partition(li, left, right)
+        quick_sort(li, left, mid-1)
+        quick_sort(li,mid+1, right)
+
+
 if __name__ == "__main__":
-    li = [random.randint(0, 10000) for i in range(1000)]
-    li_copy = copy.deepcopy(li)
-    bubble_sort(li)
-    select_sort(li_copy)
+    # li = [random.randint(0, 10000) for i in range(1000)]
+    # li_copy = copy.deepcopy(li)
+    # bubble_sort(li)
+    # select_sort(li_copy)
     # print(li)
     # print(li_copy)
-    assert li == li_copy
+    # assert li == li_copy
+    li = [5,7,4,6,3,1,2,9,8]
+    quick_sort(li,0,len(li)-1)
+    print(li)
