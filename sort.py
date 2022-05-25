@@ -80,7 +80,7 @@ def quick_sort(li,left, right):
 # 拿下来的最大元素，放在列表的尾端
 # 时间复杂度O(nlog(n))
 
-# 堆的向下调整过程
+# 堆的向下调整过程sift
 # 当根节点的左右子树都是堆时，可以通过一次向下的调整来将其变换成一个堆
 def sift(heap, low ,high):
     # hight是堆的最后一个元素的下标，low是第一个元素
@@ -101,8 +101,9 @@ def sift(heap, low ,high):
         li[i] = tmp
 
 
-# 构造堆
+# 堆排序的实现
 def heap_sort(li):
+    # 构造堆
     n = len(li)
     for i in range((n-2)//2, -1 , -1): # -1表示倒叙，步长是-1
         # i表示建堆的时候调整的部分的根的下标
@@ -112,6 +113,22 @@ def heap_sort(li):
         # i指向当前堆的最后一个元素
         li[0], li[i] = li[i],li[0]
         sift(li, 0, i-1) # i-1是新的high
+
+# 堆排序在python有内置的模块
+# heapq
+# heapify(x)
+# heappush(heap,item)
+# heappop(heap)
+import heapq #q-> queue 优先队列
+import random
+
+li = list(range(100))
+random.shuffle(li)
+heapq.heapify(li) # 建堆
+n = len(li)
+for i in range(n):
+    print(heapq.heappop(li), end = ',')
+    
 
 
 if __name__ == "__main__":
