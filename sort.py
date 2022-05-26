@@ -122,19 +122,66 @@ def heap_sort(li):
 import heapq #q-> queue 优先队列
 import random
 
-li = list(range(100))
-random.shuffle(li)
-heapq.heapify(li) # 建堆
-n = len(li)
-for i in range(n):
-    print(heapq.heappop(li), end = ',')
-    
+def heapq_example():
+    li = list(range(100))
+    random.shuffle(li)
+    heapq.heapify(li) # 建堆
+    n = len(li)
+    for i in range(n):
+        print(heapq.heappop(li), end = ',')
+
+
+# 堆排序——topk问题
+# 现在有n个数，设计算法得到前k大的数 （k<n）
+# 解决思路
+# 1.排序后切片 O(nlog(n)) 方法瓶颈：上亿的数据量支取10个数
+# 2.冒泡排序：k趟 O(nk)
+# 3.插入排序：维护一个长度为k的列表 O(nk)
+# 4.简单排序：选择最大的数据和无序区的第一个数交换 O(nk)
+# 5.堆排序：O(nlog(k))
+# 取列表前k个元素建立一个小根堆。堆顶就是目前第k大的数
+# 依次向后遍历原列表，对于列表中的元素，如果小于堆顶，则忽略该元素；
+# 如果大于堆顶，则将堆顶更换为该元素，并且对堆顶进行一次调整；
+# 遍历列表所有元素后，倒序弹出堆顶
+def sift(li, low, high): # 建立小根堆的sift函数
+    i = low
+    j = 2 * i + 1
+    tmp = li[low]
+    while j <= high:
+        if j + 1 <= high and li[j + 1] < li[j]: # 两个孩子节点取比较小的那个数
+            j = j + 1
+        if li[j] < tmp: # 孩子大，就和父亲节点交换，满足父亲比孩子小
+            li[i] = li[j]
+            i = j
+            j = 2 * i + 1
+        else:
+            break
+        li[i] = tmp
+
+
+def topk(li, k):
+    heap = li[0:k]
+    for i in range((k-2)//2, -1, -1):
+        sift(heap, i, k-1)
+    # 1.取列表的前k个元素建堆
+    for i in range(k, len(li)-1):
+        if li[i] > heap[0]:
+            heap[0] = li[i]
+            sift(heap, 0, k-1)
+    # 2.遍历列表的后k+1个元素，如果比堆顶大，就和堆顶元素替换
+    for i in range(k-1, -1 ,-1):
+        heap[0], heap[i] = heap[i], heap[0]
+        sift(heap, 0, i - 1)
+    # 3.挨个输出：堆顶元素输出，堆最后一个元素放到堆顶，sift
+    return heap
 
 
 if __name__ == "__main__":
-    li = [5,7,4,6,3,1,2,9,8]
+    li = list(range(1000))
+    random.shuffle(li)
+    # li = [5,7,4,6,3,1,2,9,8]
     # li = [random.randint(0,1000) for i in range(1000)]
-    print(li)
+    # print(li)
     # li_copy = copy.deepcopy(li)
     # print(li_copy)
     # 冒泡排序
@@ -144,5 +191,9 @@ if __name__ == "__main__":
     # 快速排序
     # quick_sort(li,0,len(li)-1)
     # 堆排序例子
-    heap_sort(li)
-    print(li)
+    # heap_sort(li)
+    # print(li)
+    # python内置的堆排列
+    # heapq_example()
+    # topk问题
+    print(topk(li,10))
