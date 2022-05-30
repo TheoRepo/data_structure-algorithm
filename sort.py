@@ -176,6 +176,50 @@ def topk(li, k):
     return heap
 
 
+# 归并算法
+
+# 什么是归并？
+# 列表分两段有序，如何将其合并成为一个有序列表，这种操作称为一次归并
+# 分解：将列表越分越小，直至分成一个元素
+# 终止条件：一个元素是有序的
+# 合并：将两个有序列表归并，列表越来越大
+# 写算法，其实就是演绎法，
+# 找一个具有代表性的例子，想清楚这个例子执行过程的各个细节（看动画）
+# 考虑除了这个例子之外的，其他的典型例子。
+
+def merge(li, low, mid, high):
+    i = low
+    j = mid + 1
+    ltmp = []
+    while i <= mid and j <= high: # 只要左右两边都有数
+        if li[i] < li[j]:
+            ltmp.append(li[i]) 
+            i += 1
+        else:
+            ltmp.append(li[j])
+            j += 1
+    # while执行完，一定是一部分没数了
+    while i <= mid:
+        ltmp.append(li[i])
+        i += 1
+    while j <= high:
+        ltmp.append(li[j])
+        j += 1
+    li[low:high+1] = ltmp # 前包括后不包
+# li = [2,4,5,7,1,3,6,8]
+# merge(li, 0, 3, 7)
+# print(li)
+
+# 算法复杂度
+# 看图
+# 每层是n，log(n)层，所以时间复杂度是O(nlog(n))
+def merge_sort(li, low, high):
+    if low < high: # 至少有两个元素，递归
+        mid = (low + high) // 2
+        merge_sort(li, low ,mid)
+        merge_sort(li, mid+1, high)
+        merge(li, low, mid ,high)
+
 if __name__ == "__main__":
     li = list(range(1000))
     random.shuffle(li)
@@ -196,4 +240,6 @@ if __name__ == "__main__":
     # python内置的堆排列
     # heapq_example()
     # topk问题
-    print(topk(li,10))
+    # print(topk(li,10))
+    merge_sort(li, 0, len(li)-1)
+    print(li)
