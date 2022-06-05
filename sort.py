@@ -1,8 +1,10 @@
 import random
 import copy
+from utils.cal_time import cal_time
 
 # 冒泡排序
 # 算法复杂度O(n^2)
+@cal_time
 def bubble_sort(li):
     for i in range(len(li)-1): # 第i趟
         for j in range(len(li)-i-1):
@@ -12,6 +14,7 @@ def bubble_sort(li):
 
 # 选择排序
 # 算法复杂度O(n^2)
+@cal_time
 def select_sort(li):
     for i in range(len(li)-1): # i是第几趟
         # 选出无序区的最小值
@@ -30,6 +33,7 @@ def select_sort(li):
 # 每次（从无序区）摸一张牌，插入到手里已有牌的正确位置
 
 # 关键问题：1.摸什么牌 2.插在什么位置
+@cal_time
 def insert_sort(li):
     for i in range(1, len(li)):# i表示摸到的牌的下标
         tmp = li[i]
@@ -53,20 +57,22 @@ def partition(li, left, right):
         while left < right and li[right] >= tmp: # 从右边找比tmp小的数
             right -= 1 # 往左边走一步
         li[left] = li[right] # 把右边的值写到左边空位上
-        print(li,'right')
+        # print(li,'right')
         while left < right and li[left] <= tmp:
             left += 1
         li[right] = li[left] # 把左边的值写道右边空位上
-        print(li,'left')
+        # print(li,'left')
     li[left] = tmp # 把tmp归位
     return left
 
-def quick_sort(li,left, right):
-    if left < right: # 至少两个元素
-        mid = partition(li, left, right)
-        quick_sort(li, left, mid-1)
-        quick_sort(li,mid+1, right)
-
+@cal_time
+def quick_sort(li, left, right):
+    def _quick_sort(li, left, right):
+        if left < right: # 至少两个元素
+            mid = partition(li, left, right)
+            _quick_sort(li, left, mid-1)
+            _quick_sort(li,mid+1, right)
+    return _quick_sort(li, left, right)
 
 # 堆排序
 # 堆排序过程
@@ -102,6 +108,7 @@ def sift(heap, low ,high):
 
 
 # 堆排序的实现
+@cal_time
 def heap_sort(li):
     # 构造堆
     n = len(li)
@@ -113,6 +120,7 @@ def heap_sort(li):
         # i指向当前堆的最后一个元素
         li[0], li[i] = li[i],li[0]
         sift(li, 0, i-1) # i-1是新的high
+
 
 # 堆排序在python有内置的模块
 # heapq
@@ -177,7 +185,6 @@ def topk(li, k):
 
 
 # 归并算法
-
 # 什么是归并？
 # 列表分两段有序，如何将其合并成为一个有序列表，这种操作称为一次归并
 # 分解：将列表越分越小，直至分成一个元素
@@ -186,7 +193,6 @@ def topk(li, k):
 # 写算法，其实就是演绎法，
 # 找一个具有代表性的例子，想清楚这个例子执行过程的各个细节（看动画）
 # 考虑除了这个例子之外的，其他的典型例子。
-
 def merge(li, low, mid, high):
     i = low
     j = mid + 1
@@ -213,33 +219,57 @@ def merge(li, low, mid, high):
 # 算法复杂度
 # 看图
 # 每层是n，log(n)层，所以时间复杂度是O(nlog(n))
+# 空间复杂度, O(n)
+@cal_time
 def merge_sort(li, low, high):
-    if low < high: # 至少有两个元素，递归
-        mid = (low + high) // 2
-        merge_sort(li, low ,mid)
-        merge_sort(li, mid+1, high)
-        merge(li, low, mid ,high)
+    def _merge_sort(li, low, high):
+        if low < high: # 至少有两个元素，递归
+            mid = (low + high) // 2
+            _merge_sort(li, low ,mid)
+            _merge_sort(li, mid+1, high)
+            merge(li, low, mid ,high)
+    return _merge_sort(li, low, high)
 
 if __name__ == "__main__":
-    li = list(range(1000))
-    random.shuffle(li)
     # li = [5,7,4,6,3,1,2,9,8]
     # li = [random.randint(0,1000) for i in range(1000)]
-    # print(li)
-    # li_copy = copy.deepcopy(li)
-    # print(li_copy)
+
+    li = list(range(100))
+    random.shuffle(li)
+
+    li1 = copy.deepcopy(li)
+    li2 = copy.deepcopy(li)
+    li3 = copy.deepcopy(li)
+    li4 = copy.deepcopy(li)
+    li5 = copy.deepcopy(li)
+    li6 = copy.deepcopy(li)
+
     # 冒泡排序
-    # bubble_sort(li)
+    print("冒泡排序")
+    bubble_sort(li1)
+    print(li1)
+
     # 选择排序
-    # select_sort(li_copy)
+    print("选择排序")
+    select_sort(li2)
+    print(li2)
+
+    # 插入排序
+    print("插入排序")
+    insert_sort(li3)
+    print(li3)
+
     # 快速排序
-    # quick_sort(li,0,len(li)-1)
-    # 堆排序例子
-    # heap_sort(li)
-    # print(li)
-    # python内置的堆排列
-    # heapq_example()
-    # topk问题
-    # print(topk(li,10))
-    merge_sort(li, 0, len(li)-1)
-    print(li)
+    print("快速排序")
+    quick_sort(li4,0,len(li4)-1)
+    print(li4)
+
+    # 堆排序
+    print("堆排序")
+    heap_sort(li5)
+    print(li5)
+
+    # 归并排序
+    print("归并排序")
+    merge_sort(li6, 0, len(li6)-1)
+    print(li6)
