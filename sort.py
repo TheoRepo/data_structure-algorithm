@@ -88,23 +88,57 @@ def quick_sort(li, left, right):
 
 # 堆的向下调整过程sift
 # 当根节点的左右子树都是堆时，可以通过一次向下的调整来将其变换成一个堆
-def sift(heap, low ,high):
-    # hight是堆的最后一个元素的下标，low是第一个元素
+
+# 建立大根堆
+def sift_big_draft(li, low ,high):
+    """
+    :param li:列表
+    :param low:堆的根节点位置
+    :param high:堆的最后一个元素的位置
+    :return:
+    """
+    # high是堆的最后一个元素的下标，low是第一个元素
     i = low # i开始时父亲节点
-    j = 2*i + 1 # j开始是左孩子
+    j = 2 * i + 1 # j开始是左孩子
     tmp = li[low] # 把堆顶存起来
+    # 谁放在堆顶？
     while j <= high: # 只要j位置有节点
+        # j指向两个孩子节点中较大的那个节点
         if j + 1 <= high and li[j + 1] > li[j]: # 如果右孩子有，并且比较大
             j = j + 1 # j指向右孩子
+        # 更大的孩子和tmp比较，谁更大，谁放到堆顶
         if li[j] > tmp:
             li[i] = li[j]
             i = j # 往下看一层
             j = 2 * i + 1
         else: # tmp更大，把tmp放到i的位置上
-            # li[i] = tmp # 把tmp放到某一级领导的位置 # 重复代码，注释掉
+            li[i] = tmp # 把tmp放到某一级领导的位置 # 重复代码，注释掉
             break
-    else: # j位置没有节点，跳出循环
-        li[i] = tmp
+    else:
+        li[i] = tmp # 把tmp放到叶子节点上
+
+
+def sift_big(li, low ,high):
+    """
+    :param li:列表
+    :param low:堆的根节点位置
+    :param high:堆的最后一个元素的位置
+    :return:
+    """
+    i = low 
+    j = 2 * i + 1
+    tmp = li[low] 
+    while j <= high: 
+        if j + 1 <= high and li[j + 1] > li[j]: 
+            j = j + 1 
+        if li[j] > tmp:
+            li[i] = li[j]
+            i = j 
+            j = 2 * i + 1
+        else: 
+            # li[i] = tmp  # 重复代码，注释掉
+            break
+        li[i] = tmp 
 
 
 # 堆排序的实现
@@ -114,12 +148,12 @@ def heap_sort(li):
     n = len(li)
     for i in range((n-2)//2, -1 , -1): # -1表示倒叙，步长是-1
         # i表示建堆的时候调整的部分的根的下标
-        sift(li, i, n-1)
+        sift_big(li, i, n-1)
     # 建堆完成了（农村包围城市）
     for i in range(n-1, -1, -1): 
         # i指向当前堆的最后一个元素
         li[0], li[i] = li[i],li[0]
-        sift(li, 0, i-1) # i-1是新的high
+        sift_big(li, 0, i-1) # i-1是新的high
 
 
 # 堆排序在python有内置的模块
@@ -151,7 +185,7 @@ def heapq_example():
 # 依次向后遍历原列表，对于列表中的元素，如果小于堆顶，则忽略该元素；
 # 如果大于堆顶，则将堆顶更换为该元素，并且对堆顶进行一次调整；
 # 遍历列表所有元素后，倒序弹出堆顶
-def sift(li, low, high): # 建立小根堆的sift函数
+def sift_small(li, low, high): # 建立小根堆的sift函数
     i = low
     j = 2 * i + 1
     tmp = li[low]
@@ -170,16 +204,16 @@ def sift(li, low, high): # 建立小根堆的sift函数
 def topk(li, k):
     heap = li[0:k]
     for i in range((k-2)//2, -1, -1):
-        sift(heap, i, k-1)
+        sift_small(heap, i, k-1)
     # 1.取列表的前k个元素建堆
     for i in range(k, len(li)-1):
         if li[i] > heap[0]:
             heap[0] = li[i]
-            sift(heap, 0, k-1)
+            sift_small(heap, 0, k-1)
     # 2.遍历列表的后k+1个元素，如果比堆顶大，就和堆顶元素替换
     for i in range(k-1, -1 ,-1):
         heap[0], heap[i] = heap[i], heap[0]
-        sift(heap, 0, i - 1)
+        sift_small(heap, 0, i - 1)
     # 3.挨个输出：堆顶元素输出，堆最后一个元素放到堆顶，sift
     return heap
 
