@@ -264,6 +264,30 @@ def merge_sort(li, low, high):
             merge(li, low, mid ,high)
     return _merge_sort(li, low, high)
 
+
+# 希尔排序
+# 希尔排序（shell sort）是一种分组插入排序算法
+# 首先取一个整数d1=n/2,将元素分为d1个组，每组相邻量元素之间距离为d1,在各组内进行直接插入排序；
+# 取第二个整数d2=d1/2,重复上述分组排序过程，直到di=1，即将所有元素在同一个组内进行直接插入排序。
+# 希尔排序每趟并不使某些元素有序，而是使整体数据越来越接近有序；最后一趟排序使得所有数据有序。
+def insert_sort_gap(li, gap):
+    for i in range(gap, len(li)): #i 表示摸到的牌的下标
+        tmp = li[i]
+        j = i - gap # 指的是手里的牌的下标
+        while j >= 0 and li[j] > tmp:
+            li[j + gap] = li[j]
+            j -= gap
+        li[j+gap] = tmp
+
+
+@cal_time
+def shell_sort(li):
+    d = len(li) // 2
+    while d >= 1:
+        insert_sort_gap(li, d)
+        d //=2
+
+
 if __name__ == "__main__":
     # li = [5,7,4,6,3,1,2,9,8]
     # li = [random.randint(0,1000) for i in range(1000)]
@@ -277,6 +301,7 @@ if __name__ == "__main__":
     li4 = copy.deepcopy(li)
     li5 = copy.deepcopy(li)
     li6 = copy.deepcopy(li)
+    li7 = copy.deepcopy(li)
 
     # 冒泡排序
     print("冒泡排序")
@@ -307,3 +332,8 @@ if __name__ == "__main__":
     print("归并排序")
     merge_sort(li6, 0, len(li6)-1)
     print(li6)
+
+    # 希尔排序
+    print("希尔排序")
+    shell_sort(li7)
+    print(li7)
