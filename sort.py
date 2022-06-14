@@ -303,6 +303,30 @@ def count_sort(li, max_count=100):
             li.append(ind)
 
 
+# 在计算排序中，如果元素的范围比较大(比如在1到1亿之间)，如何改造算法？
+# 桶排序（Bucket Sort）,首先将元素分在不同的桶中，在对每个桶中的元素排序
+# 桶排序的表现取决于数据的分布。也就是需要对不同数据排序时采取不同的分桶策略
+# 平均情况时间复杂度: O(n + k)
+# 最坏情况时间复杂度：O(n^2k)
+# 空间复杂度: O(nk)
+# 直观理解, k表示一个桶平均能有多少个数
+def bucket_sort(li, n=100, max_num=10000):
+    buckets = [[] for _ in range(n)] # 创建桶
+    for var in li:
+        i = min(var // (max_num // n), n-1) # i 表示var放到几号桶里
+        buckets[i].append(var) # 把var加到桶里边
+        # 保持桶内的顺序
+        for j in range(len(buckets[i])-1, 0, -1):
+            if buckets[i][j] < buckets[i][j-1]:
+                buckets[i][j], buckets[i][j-1] = buckets[i][j-1], buckets[i][j]
+            else:
+                break
+    li.clear()
+    for buc in buckets:
+        li.extend(buc)
+    return li
+
+
 if __name__ == "__main__":
     # li = [5,7,4,6,3,1,2,9,8]
     # li = [random.randint(0,1000) for i in range(1000)]
@@ -318,7 +342,8 @@ if __name__ == "__main__":
     li6 = copy.deepcopy(li)
     li7 = copy.deepcopy(li)
 
-    li_limit = [random.randint(0,10) for _ in range(100)]
+    li_limit1 = [random.randint(0,10) for _ in range(100)]
+    li_limit2 = [random.randint(0,10) for _ in range(100)]
 
     # 冒泡排序
     print("冒泡排序")
@@ -357,5 +382,10 @@ if __name__ == "__main__":
 
     # 计数排序
     print("计数排序")
-    count_sort(li_limit)
-    print(li_limit)
+    count_sort(li_limit1)
+    print(li_limit1)
+
+    # 桶排序
+    print("桶排序")
+    bucket_sort(li_limit2, n=2, max_num=10)
+    print(li_limit2)
