@@ -337,6 +337,8 @@ def bucket_sort(li, n=100, max_num=10000):
 # k表示数字位数
 # 快排的时间复杂度是O(nlogn),所以基数排序比快速排序快
 # 从数学也好理解, 快速排序：logn是以2为底的对数，基数排序：log10以10为底数
+# 但是也有反例：[random.randint(0,10000000000) for _ in range(1000)]
+# 基数排序的效率，和数字的个数有关
 def radix_sort(li):
     max_num = max(li) # 最大值 9->1, 99->2, 888->3, 10000->5
     it = 0
