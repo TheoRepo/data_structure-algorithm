@@ -1,5 +1,9 @@
-# _*_coding:utf-8_*_
-# created by Theo Yu on 5/16/22
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+#@File    :   hanoi.py
+#@Time    :   2022/06/17 08:16:09
+#@Author  :   Theo Yu
+
 
 # 汉诺塔问题
 # 解题思路：

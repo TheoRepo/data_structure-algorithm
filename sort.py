@@ -1,3 +1,10 @@
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+#@File    :   sort.py
+#@Time    :   2022/06/17 08:16:29
+#@Author  :   Theo Yu
+
+
 import random
 import copy
 from utils.cal_time import cal_time

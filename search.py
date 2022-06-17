@@ -1,5 +1,9 @@
-# _*_coding:utf-8_*_
-# created by Theo Yu on 5/16/22
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+#@File    :   search.py
+#@Time    :   2022/06/17 08:16:18
+#@Author  :   Theo Yu
+
 
 from utils.cal_time import cal_time
 

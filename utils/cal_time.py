@@ -1,5 +1,9 @@
-# _*_coding:utf-8_*_
-# created by Theo Yu on 5/16/22
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+#@File    :   cal_time.py
+#@Time    :   2022/06/17 08:16:52
+#@Author  :   Theo Yu
+
 
 import time
 
