@@ -27,3 +27,35 @@
 # append O(1)
 # 插入元素 O(n)
 # 删除元素 O(n)
+
+# 栈，直观的理解，就是一堆书
+# 栈(stack),是一个数据集合，可以理解为只能在一端进行插入或删除操作的列表
+# 栈的特点：后进先出 LIFO (last-in, first-out)
+# 栈的概念：栈顶、栈底
+# 栈的基本操作：
+# 进栈（压栈）：push
+# 出栈：pop
+# 取栈顶：gettop
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+    
+    def push(self, element):
+        self.stack.append(element)
+
+    def pop(self):
+        return self.stack.pop()
+
+    def get_top(self):
+        if len(self.stack) > 0:
+            return self.stack[-1]
+        else:
+            return None
+        
+if __name__ == "__main__":
+    stack = Stack()
+    stack.push(1)
+    stack.push(2)
+    stack.push(3)
+    print(stack.pop())
