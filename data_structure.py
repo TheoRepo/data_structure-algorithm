@@ -36,7 +36,6 @@
 # 进栈（压栈）：push
 # 出栈：pop
 # 取栈顶：gettop
-
 class Stack:
     def __init__(self):
         self.stack = []
@@ -55,6 +54,7 @@ class Stack:
 
     def is_empty(self):
         return len(self.stack) == 0
+
 
 # 栈的应用-括号匹配问题
 # 括号匹配问题：给一个字符串，其中包好小括号、中括号、大括号，求改字符串中的括号是否匹配
@@ -82,12 +82,67 @@ def brace_match(s):
         return False
 
 
+# 队列
+# 队列(Queue)是一个数据集合，仅允许在列表的一端进行插入，另一端进行删除。
+# 进行插入的一端称为队尾(rear),插入动作称为进队或入队
+# 进行删除的一端称为队头(front),删除动作称为出队
+# 队列的性质：先进先出(First-in, First-out)
+# 队列有如下几个操作：
+# push(x) : 将 x 压入队尾 
+# pop() : 删除并返回队首元素
+
+# 队列的实现方式
+# 环形队列：当队尾指针front == Maxsize -1 时，再前进一个位置就自动到0
+# 队首指针前进：front = (front + 1) % MaxSize
+# 队尾指针前进：rear = (rear + 1) % MaxSize
+# 队空条件：rear == front
+# 队满条件：(rear + 1) % MaxSize == front
+class Queue:
+    def __init__(self, size=100):
+        self.queue = [0 for _ in range(size)]
+        self.size = size
+        self.rear = 0 # 队尾指针
+        self.front = 0 # 队首指针
+
+    def push(self, element):
+        if not self.is_filled():
+            self.rear = (self.rear + 1) % self.size
+            self.queue[self.rear] = element
+        else:
+            raise IndexError("Queue is filled.")
+
+    def pop(self):
+        if not self.is_empty():
+            self.front = (self.front + 1) % self.size
+            return self.queue[self.front]
+        else:
+            raise IndexError("Queue is empty.")
+
+    # 判断队空
+    def is_empty(self):
+        return self.rear == self.front
+
+    # 判断队满
+    def is_filled(self):
+        return (self.rear + 1) % self.size == self.front
+
+
 if __name__ == "__main__":
+
+    # 栈测试
     stack = Stack()
     stack.push(1)
     stack.push(2)
     stack.push(3)
     print(stack.pop())
 
+    # 括号匹配测试
     print(brace_match('[{()}(){()}[]({}){}]'))
     print(brace_match('[{]'))
+
+    # 队列测试
+    q = Queue(5)
+    for i in range(4):
+        q.push(i)
+    print(q.pop())
+    q.push(4)
