@@ -127,22 +127,58 @@ class Queue:
         return (self.rear + 1) % self.size == self.front
 
 
+# 双向队列
+# 双向队列的两端都支持进队和出队操作
+# 双向队列的基本操作
+# 队首进队
+# 队首出队
+# 队尾进队
+# 队尾出队
+
+# python队列内置模块
+# 使用方法 from collections import deque
+# 创建队列 queue = deque()
+# 进队 append()
+# 出队 popleft()
+# 双向队列队首进队 appendleft()
+# 双向队列队尾出队 pop()
+
+# 读取文件末尾n行的内容
+# 使用python队列内置模块实现
+def tail(n):
+    with open('test.txt', 'r') as f:
+        a= deque(f, n)
+        return a
+
 if __name__ == "__main__":
 
-    # 栈测试
+    print("测试: 栈")
     stack = Stack()
     stack.push(1)
     stack.push(2)
     stack.push(3)
     print(stack.pop())
 
-    # 括号匹配测试
+    print("测试: 括号匹配功能")
     print(brace_match('[{()}(){()}[]({}){}]'))
     print(brace_match('[{]'))
 
-    # 队列测试
+    print("测试: 队列")
     q = Queue(5)
     for i in range(4):
         q.push(i)
     print(q.pop())
     q.push(4)
+
+    print("测试: python队列内置模块")
+    from collections import deque
+    q = deque([1,2,3,4,5],5)
+    q.append(6) # 队尾进队
+    print(q.popleft()) # 队首出队
+    # 用于双向队列
+    q.appendleft(1) # 队首进队
+    print(q.pop()) # 队尾出队
+
+    print("测试: 使用python队列读取文件末尾n行的内容")
+    for line in tail(5):
+        print(line, end='')    
