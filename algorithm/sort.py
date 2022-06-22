@@ -7,6 +7,8 @@
 
 import random
 import copy
+import sys 
+sys.path.append("..") 
 from utils.cal_time import cal_time
 
 # 冒泡排序

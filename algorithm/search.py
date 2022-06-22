@@ -4,7 +4,8 @@
 #@Time    :   2022/06/17 08:16:18
 #@Author  :   Theo Yu
 
-
+import sys 
+sys.path.append("..") 
 from utils.cal_time import cal_time
 
 # 线性查找
